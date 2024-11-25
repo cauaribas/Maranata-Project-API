@@ -1,9 +1,31 @@
-import fastify, { FastifyInstance } from "fastify";
+import fastifyJwt from '@fastify/jwt';
+import fastifyCookie from '@fastify/cookie';
+import fastify, { FastifyInstance } from 'fastify';
 import { UserRoutes } from "./http/controllers/users/routes";
+import { AuthRoutes } from './http/controllers/auth/routes';
 
 const app: FastifyInstance = fastify();
 
 app.register(UserRoutes);
+app.register(AuthRoutes);
+
+app.register(fastifyJwt, {
+    secret: process.env.JWT_SECRET,
+    cookie: {
+      cookieName: "refreshToken",
+      signed: false,
+    },
+    sign: {
+      expiresIn: "10m",
+    },
+  });
+
+  app.register(fastifyCookie, {
+    parseOptions: {
+      sameSite: "none",
+      secure: true,
+    },
+  });
 
 app
     .listen({ 
