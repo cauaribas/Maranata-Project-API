@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx watch -r dotenv/config src/app.ts"
+    "dev": "tsx watch -r dotenv/config src/app.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
