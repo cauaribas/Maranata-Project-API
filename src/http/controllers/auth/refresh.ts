@@ -1,4 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
+import { userRepository } from "../../../repositories/firebase/firebase-user-repository";
 
 export async function refresh(request: FastifyRequest, response: FastifyReply) {
   const authHeader = request.headers.authorization;
@@ -22,26 +23,20 @@ export async function refresh(request: FastifyRequest, response: FastifyReply) {
 
     const { type, userId } = userParams as any;
 
-    const userService = makeGetUserService();
+    const user = await userRepository.findById(userId);
 
-    const user = (await userService.execute({ userId })) as any;
+    if (!user) {
+      return response.status(404).send({ error: "User not found" });
+    }
 
     const newToken = await response.jwtSign(
       { type, userId },
-      {
-        sub: userId,
-      }
+      { sub: userId, }
     );
 
     const newRefreshToken = await response.jwtSign(
-      { 
-        type, 
-        userId 
-      },
-      {
-        sub: userId,
-        expiresIn: "7d",
-      }
+      { type, userId },
+      { sub: userId, expiresIn: "7d", }
     );
 
     return response

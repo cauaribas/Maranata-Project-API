@@ -31,3 +31,5 @@ export class FirebaseUserRepository implements UserRepository {
     return { id: docSnap.id, ...docSnap.data() } as User;
   }
 }
+
+export const userRepository = new FirebaseUserRepository();
