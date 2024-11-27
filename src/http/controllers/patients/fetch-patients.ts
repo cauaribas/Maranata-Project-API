@@ -11,6 +11,8 @@ export async function fetch(request: FastifyRequest, response: FastifyReply) {
     });
   }
 
+  // adicionar logica para quando for ROLE === ADMIN, nao enviar o userID!!!
+
   const registerPatientService = makeFetchPatientsService();
 
   try {
