@@ -1,6 +1,14 @@
 import { Patient } from "../../models/patient";
 import { firestore } from "../../lib/firebase";
-import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { PatientRepository } from "../patient-repository";
 
 export class FirebasePatientRepository implements PatientRepository {
@@ -19,5 +27,20 @@ export class FirebasePatientRepository implements PatientRepository {
       return null;
     }
     return { id: docSnap.id, ...docSnap.data() } as Patient;
+  }
+
+  async findAll(userId: string) {
+    const patientsQuery = userId
+      ? query(this.collectionRef, where("userId", "==", userId))
+      : this.collectionRef;
+
+    const querySnapshot = await getDocs(patientsQuery);
+
+    const patients: Patient[] = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Patient[];
+
+    return patients;
   }
 }
