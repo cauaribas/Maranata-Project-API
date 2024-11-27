@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch -r dotenv/config src/app.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "deploy": "npm run build && cp -r src/* functions/ && firebase deploy --only functions"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,8 @@
     "fastify": "^5.1.0",
     "fastify-jwt": "^4.2.0",
     "firebase": "^11.0.2",
+    "firebase-admin": "^13.0.1",
+    "firebase-functions": "^6.1.1",
     "jsonwebtoken": "^9.0.2"
   }
 }
