@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch -r dotenv/config src/app.ts",
-    "build": "tsc",
-    "deploy": "npm run build && cp -r src/* functions/ && firebase deploy --only functions"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
