@@ -10,3 +10,7 @@ export const registerPatientBodySchema = z.object({
   usageDuration: z.string().min(1, "Usage duration is required"),
   referredBy: z.string().optional(),
 });
+
+export const changePatientStatusBodySchema = z.object({
+  status: z.enum(["DENIED", "UNDER_REVIEW", "APPROVED"]),
+});
