@@ -1,4 +1,4 @@
-import { Patient } from "../../models/patient";
+import { Patient, Status } from "../../models/patient";
 import { firestore } from "../../lib/firebase";
 import {
   collection,
@@ -8,6 +8,7 @@ import {
   query,
   where,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { PatientRepository } from "../patient-repository";
 
@@ -42,5 +43,10 @@ export class FirebasePatientRepository implements PatientRepository {
     })) as Patient[];
 
     return patients;
+  }
+
+  async changeStatus(patientId: string, status: Status) {
+    const DocRef = doc(this.collectionRef, patientId);
+    await updateDoc(DocRef, { status });
   }
 }
