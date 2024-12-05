@@ -11,12 +11,12 @@ export async function fetch(request: FastifyRequest, response: FastifyReply) {
     });
   }
 
-  // adicionar logica para quando for ROLE === ADMIN, nao enviar o userID!!!
+  const role = (request.user as any)?.type;
 
   const registerPatientService = makeFetchPatientsService();
 
   try {
-    const patients = await registerPatientService.execute(userId);
+    const patients = await registerPatientService.execute(role, userId);
 
     response.code(200).send(patients);
   } catch (error) {

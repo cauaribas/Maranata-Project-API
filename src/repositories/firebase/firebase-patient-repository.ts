@@ -31,10 +31,14 @@ export class FirebasePatientRepository implements PatientRepository {
     return { id: docSnap.id, ...docSnap.data() } as Patient;
   }
 
-  async findAll(userId: string) {
-    const patientsQuery = userId
-      ? query(this.collectionRef, where("userId", "==", userId))
-      : this.collectionRef;
+  async findAll(role: string, userId: string) {
+    let patientsQuery;
+
+    if (role === "ADMIN") {
+      patientsQuery = query(this.collectionRef);
+    } else {
+      patientsQuery = query(this.collectionRef, where("userId", "==", userId));
+    }
 
     const querySnapshot = await getDocs(patientsQuery);
 
