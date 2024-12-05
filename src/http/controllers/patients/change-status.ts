@@ -3,7 +3,6 @@ import { makeChangeStatusService } from "../../../services/factories/make-change
 import { Status } from "../../../models/patient";
 import { changePatientStatusBodySchema } from "../../schemas/patient-schema";
 
-
 export async function changeStatus (request: FastifyRequest, response: FastifyReply) {
   const { id } = request.params as { id: string };
   
