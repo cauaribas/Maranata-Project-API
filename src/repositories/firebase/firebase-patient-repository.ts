@@ -35,7 +35,7 @@ export class FirebasePatientRepository implements PatientRepository {
     let patientsQuery;
 
     if (role === "ADMIN") {
-      patientsQuery = query(this.collectionRef);
+      patientsQuery = query(this.collectionRef, where("status", "==", "UNDER_REVIEW"));
     } else {
       patientsQuery = query(this.collectionRef, where("userId", "==", userId));
     }
