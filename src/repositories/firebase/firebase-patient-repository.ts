@@ -9,6 +9,7 @@ import {
   where,
   getDocs,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { PatientRepository } from "../patient-repository";
 
@@ -48,5 +49,10 @@ export class FirebasePatientRepository implements PatientRepository {
   async changeStatus(patientId: string, status: Status) {
     const DocRef = doc(this.collectionRef, patientId);
     await updateDoc(DocRef, { status });
+  }
+
+  async delete(patientId: string) {
+    const DocRef = doc(this.collectionRef, patientId);
+    await deleteDoc(DocRef);
   }
 }
